@@ -1,3 +1,5 @@
+// Text List using JList
+
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JFrame;
@@ -5,10 +7,10 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import javax.swing.*;
 
-import java.awt.event.*;
-import java.awt.event.*;
+// Failed imports
+import java.awt.event.ListSelectionListener;
+import java.awt.event.ListSelectionEvent;
 
 
 class TextList implements ListSelectionListener {
