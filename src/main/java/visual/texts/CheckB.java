@@ -17,6 +17,11 @@ public class CheckB {
         Listener lst = new Listener();
 
         checkBox.addItemListener(lst);
+
+        panel.add(checkBox);
+        frame.getContentPane().add(panel);
+        frame.setSize(600, 500);
+        //frame.setVisible(true);
     }
 
     public boolean verifyCheckBox() {
