@@ -22,6 +22,11 @@ public class Listener implements ItemListener {
 
         if (ch.verifyCheckBox()) state = "On";
 
-        System.out.println("Check Box is " + state);
+        try {
+                System.out.println("Check Box is " + state);
+
+            } catch (Exception ex) {
+                System.out.println("Oops! Bad thing\n" + ex);
+            }
     }
 }

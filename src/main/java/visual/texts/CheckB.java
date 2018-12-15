@@ -13,7 +13,7 @@ public class CheckB {
     public void start() {
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
-        checkBox = new JCheckBox();
+        checkBox = new JCheckBox("Looks clickable");
         Listener lst = new Listener();
 
         checkBox.addItemListener(lst);
@@ -21,7 +21,7 @@ public class CheckB {
         panel.add(checkBox);
         frame.getContentPane().add(panel);
         frame.setSize(600, 500);
-        //frame.setVisible(true);
+        frame.setVisible(true);
     }
 
     public boolean verifyCheckBox() {
