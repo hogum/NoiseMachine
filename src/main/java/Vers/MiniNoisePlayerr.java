@@ -42,7 +42,7 @@ public class MiniNoisePlayerr {
 
                     track.add(createEvent(144, 1, note, 100, i));
                     track.add(createEvent(176, 1, 127, 0, i));
-                    track.add(createEvent(128, 1, note, 100, i));
+                    track.add(createEvent(128, 1, note, 100, i+2));
                 }
 
                 sequencer.setSequence(sequence);
