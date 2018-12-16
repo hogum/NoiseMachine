@@ -14,13 +14,14 @@ public class Listener implements ItemListener {
     }
 
     void setUp() {
-        ch = new CheckB(); 
+        this.ch = new CheckB(); 
     }
 
     public void itemStateChanged(ItemEvent ev) {
         String state = "Off";
 
-        if (ch.verifyCheckBox()) state = "On";
+        if (ch.verifyCheckBox())
+            state = "On";
 
         try {
                 System.out.println("Check Box is " + state);
