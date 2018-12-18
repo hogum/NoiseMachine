@@ -17,11 +17,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+=======
+>>>>>>> 255b455bd5eca2295919c00050e25777da44a032
 
 public class SoundBeats {
    
@@ -78,10 +81,13 @@ public class SoundBeats {
         tempoDownButton.addActionListener(new TempoDownButtonListener());
         buttonBox.add(tempoDownButton);
 
+<<<<<<< HEAD
         JButton serializeButton = new JButton("Send to File");
         serializeButton.addActionListener(new SerializeButtonListener());
         buttonBox.add(serializeButton);
 
+=======
+>>>>>>> 255b455bd5eca2295919c00050e25777da44a032
         Box nameBox = new Box(BoxLayout.Y_AXIS);
 
         for (int i=0; i < 16 ; i++)
@@ -245,6 +251,7 @@ public class SoundBeats {
         }
     }
 
+<<<<<<< HEAD
     
     class SerializeButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -305,4 +312,6 @@ public class SoundBeats {
         }
     }
 
+=======
+>>>>>>> 255b455bd5eca2295919c00050e25777da44a032
 }
