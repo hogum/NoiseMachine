@@ -17,6 +17,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 public class SoundBeats {
    
@@ -240,6 +243,32 @@ public class SoundBeats {
         }
     }
 
-    SerializeButtonListener
+    class SerializeButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+        
+            boolean [] checkBoxStatus = new boolean[256];
+
+            for (int i=0; i < 256; i++) {
+                JCheckBox checkB = (JCheckBox) checkBoxesList.get(i);
+
+                if (checkB.isSelected()) {
+
+                    checkBoxStatus[i] = true;
+                }
+            }
+
+            try {
+
+                FileOutputStream fs = new FileOutputStream(new File("Checkbox.ser"));
+                ObjectOutputStream os = new ObjectOutputStream(fs);
+                os.writeObject(checkBoxStatus);
+            
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
+
+        }        
+    }
 
 }
