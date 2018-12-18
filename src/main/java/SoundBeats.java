@@ -20,6 +20,8 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 public class SoundBeats {
    
@@ -243,6 +245,7 @@ public class SoundBeats {
         }
     }
 
+    
     class SerializeButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         
@@ -267,8 +270,39 @@ public class SoundBeats {
 
                 ex.printStackTrace();
             }
+        }      
+    }
 
-        }        
+    class RestoreButtonListener implements ActionListener{
+        public void actionPerformed(ActionEvent event) {
+
+            boolean [] checkBoxStatus = null;
+
+            try {
+                FileInputStream fs = new FileInputStream(new File("Checkbox.ser"));
+                ObjectInputStream is = new ObjectInputStream(fs);
+                checkBoxStatus = (boolean []) is.readObject();
+            
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            for (int i=0; i < 256; i++) {
+
+                JCheckBox checkB = (JCheckBox) checkBoxesList.get(i);
+
+                if (checkBoxStatus[i]) {
+                    checkB.setSelected(true);
+                
+                } else {
+
+                    checkB.setSelected(false);
+                }
+            }
+
+            sequencer.stop();
+            startTracks();
+        }
     }
 
 }
