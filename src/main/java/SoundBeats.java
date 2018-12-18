@@ -73,6 +73,10 @@ public class SoundBeats {
         tempoDownButton.addActionListener(new TempoDownButtonListener());
         buttonBox.add(tempoDownButton);
 
+        JButton serializeButton = new JButton("Send to File");
+        serializeButton.addActionListener(new SerializeButtonListener());
+        buttonBox.add(serializeButton);
+
         Box nameBox = new Box(BoxLayout.Y_AXIS);
 
         for (int i=0; i < 16 ; i++)
@@ -235,5 +239,7 @@ public class SoundBeats {
             sequencer.setTempoFactor((float) (tempoFactor * .97));
         }
     }
+
+    SerializeButtonListener
 
 }
