@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.io.IOException;
 
 public class SoundBeats {
    
@@ -82,8 +83,8 @@ public class SoundBeats {
         serializeButton.addActionListener(new SerializeButtonListener());
         buttonBox.add(serializeButton);
 
-         JButton restoreButton = new JButton("Restore");
-        restoreButton.addActionListener(new SerializeButtonListener());
+        JButton restoreButton = new JButton("Restore");
+        restoreButton.addActionListener(new RestoreButtonListener());
         buttonBox.add(restoreButton);
 
         Box nameBox = new Box(BoxLayout.Y_AXIS);
@@ -270,22 +271,22 @@ public class SoundBeats {
                 ObjectOutputStream os = new ObjectOutputStream(fs);
                 os.writeObject(checkBoxStatus);
             
-            } catch (Exception ex) {
+            } catch (IOException ex) {
 
                 ex.printStackTrace();
             }
         }      
     }
 
-    class RestoreButtonListener implements ActionListener{
+    class RestoreButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
 
             boolean [] checkBoxStatus = null;
 
             try {
-                FileInputStream fs = new FileInputStream(new File("Checkbox.ser"));
-                ObjectInputStream is = new ObjectInputStream(fs);
-                checkBoxStatus = (boolean []) is.readObject();
+                    FileInputStream fs = new FileInputStream(new File("Checkbox.ser"));
+                    ObjectInputStream is = new ObjectInputStream(fs);
+                    checkBoxStatus = (boolean []) is.readObject();
             
             } catch (Exception ex) {
                 ex.printStackTrace();
