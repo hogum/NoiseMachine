@@ -5,6 +5,7 @@ import javax.swing.JCheckBox;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 
 import javax.sound.midi.*;
 
@@ -248,6 +249,10 @@ public class SoundBeats {
     class SerializeButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         
+            JFileChooser fileSaver = new JFileChooser();
+            fileSaver.showSaveDialog(frame);
+            File fl =  fileSaver.getSelectedFile();
+
             boolean [] checkBoxStatus = new boolean[256];
 
             for (int i=0; i < 256; i++) {
@@ -261,7 +266,7 @@ public class SoundBeats {
 
             try {
 
-                FileOutputStream fs = new FileOutputStream(new File("Checkbox.ser"));
+                FileOutputStream fs = new FileOutputStream(fl);
                 ObjectOutputStream os = new ObjectOutputStream(fs);
                 os.writeObject(checkBoxStatus);
             
@@ -277,8 +282,11 @@ public class SoundBeats {
 
             boolean [] checkBoxStatus = null;
 
+            JFileChooser fileLoader = new JFileChooser();
+            fileLoader.showOpenDialog(frame);
+
             try {
-                    FileInputStream fs = new FileInputStream(new File("Checkbox.ser"));
+                    FileInputStream fs = new FileInputStream(fileLoader.getSelectedFile());
                     ObjectInputStream is = new ObjectInputStream(fs);
                     checkBoxStatus = (boolean []) is.readObject();
             
