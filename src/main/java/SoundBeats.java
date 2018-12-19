@@ -44,12 +44,6 @@ public class SoundBeats {
     int [] soundNotes = {35, 42, 46, 38, 49, 39,
                        50, 60, 70, 72, 64, 56, 58, 47, 67, 63};
 
-    public static void main(String[] args) {
-        
-        SoundBeats sb = new SoundBeats();
-        sb.buildGui();
-    }
-
 
     public void buildGui() {
         frame = new JFrame("Sound Box");
