@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.io.PrintWriter;
+import java.io.IOException;
 
 import java.net.Socket;
 
@@ -34,21 +35,50 @@ public class MessageClient {
         outgoingMessage =  new JTextField(20);
         JButton sendButton = new JButton("Send");
 
+        setConnection();
+
         sendButton.addActionListener(new SendButtonListener());
 
         panel.add(outgoingMessage);
         panel.add(sendButton);
 
         frame.getContentPane().add(BorderLayout.CENTER, panel);
-        frame.setSize(400, 500);
+        frame.setBounds(350, 150, 400, 200);
         frame.setVisible(true);
     }
 
-    public class SendButtonListener implements ActionListener {
+
+    private void setConnection() {
+
+        try {
+
+            socket = new Socket("127.0.0.1", 5880);
+            printer = new PrintWriter(socket.getOutputStream());
+            System.out.println("Connection Established!");
+        
+        } catch (IOException ex) {
+
+            System.out.println("Oops! That's not good\n" + ex);
+            ex.printStackTrace();
+        }
+    }
+
+
+    class SendButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent ev) {
 
+            try {
 
+                    printer.println(outgoingMessage.getText());
+                    printer.flush();
+            
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+
+            outgoingMessage.setText("");
+            outgoingMessage.requestFocus();
         }
     }
 
