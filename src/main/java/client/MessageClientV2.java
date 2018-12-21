@@ -50,7 +50,7 @@ public class MessageClientV2 {
 
         JScrollPane incScroller = new JScrollPane();
         incScroller.setVerticalScrollBarPolicy(
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_POLICY_ALWAYS);
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         setConnection();
 
