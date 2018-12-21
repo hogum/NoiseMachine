@@ -102,4 +102,24 @@ public class MessageClientV2 {
             outgoingMessage.requestFocus();
         }
     }
+
+    public class IncomingReader implements Runnable {
+
+        public void run() {
+
+            String text;
+
+            try {
+                    while((text = bufR.readLine()) != null) {
+
+                        System.out.println("Read    " + text);
+                        incomingMessages.append(text + '\n');
+                    }
+
+            } catch(Exception ex) {
+
+                ex.printStackTrace();
+            }
+        }
+    }
 }
