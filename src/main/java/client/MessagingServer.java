@@ -116,4 +116,9 @@ public class MessagingServer {
             ex.printStackTrace();
         }
     }
+
+    public static void main(String[] args) {
+        
+        new MessagingServer().startMessaging();
+    }
 }
