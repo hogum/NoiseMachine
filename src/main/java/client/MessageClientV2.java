@@ -48,7 +48,7 @@ public class MessageClientV2 {
         incomingMessages.setWrapStyleWord(true);
         incomingMessages.setEditable(false);
 
-        JScrollPane incScroller = new JScrollPane();
+        JScrollPane incScroller = new JScrollPane(incomingMessages);
         incScroller.setVerticalScrollBarPolicy(
             ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
