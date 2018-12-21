@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.net.SocketStream;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.io.InputStreamReader;
+
 
 public class MessagingServer {
 
@@ -12,7 +14,7 @@ public class MessagingServer {
 
     public class ClientHandler implements Runnable {
 
-        BufferedReader reader;
+        BufferedReader bufReader;
         Thread thread;
         Socket socket;
         String threadName;
@@ -27,6 +29,12 @@ public class MessagingServer {
 
             try {
 
+                InputStreamReader isReader = new InputStreamReader(socket.getInputStream());
+                bufReader = new BufferedReader(isReader);
+            
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
             }
 
             if (thread == null) {
