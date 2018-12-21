@@ -85,5 +85,21 @@ public class MessageClientV2 {
         }
     }
 
-    
+    class SendButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent ev) {
+
+            try {
+
+                    printer.println(outgoingMessage.getText());
+                    printer.flush();
+            
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+
+            outgoingMessage.setText("");
+            outgoingMessage.requestFocus();
+        }
+    }
 }
