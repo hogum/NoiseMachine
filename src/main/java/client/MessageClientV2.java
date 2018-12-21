@@ -60,11 +60,30 @@ public class MessageClientV2 {
         panel.add(sendButton);
         panel.add(incScroller);
 
-        Thread readerThread = new
+        Thread readerThread = new Thread(new IncomingReader(), "Incoming Reader");
+        readerThread.start();
 
         frame.getContentPane().add(BorderLayout.CENTER, panel);
-        frame.setBounds(350, 150, 400, 200);
+        frame.setBounds(350, 150, 500, 300);
         frame.setVisible(true);
     }
 
+    private void setConnection() {
+
+        try {
+
+            socket = new Socket("127.0.0.1", 5880);
+            printer = new PrintWriter(socket.getOutputStream());
+            InputStreamReader streamR = new InputStreamReader(socket.getInputStream());
+            bufR = new BufferedReader(streamR);
+            System.out.println("Connection Established!");
+        
+        } catch (IOException ex) {
+
+            System.out.println("Oops! That's not good\n" + ex);
+            ex.printStackTrace();
+        }
+    }
+
+    
 }
