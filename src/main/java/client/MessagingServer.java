@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 
 public class MessagingServer {
 
-    List clientOutputStreams;
+    List<PrintWriter> clientOutputStreams;
 
     public class ClientHandler implements Runnable {
 
@@ -93,7 +93,7 @@ public class MessagingServer {
 
     public void startMessaging() {
 
-        clientOutputStreams = new ArrayList();
+        clientOutputStreams = new ArrayList<PrintWriter>();
 
         try {
 
