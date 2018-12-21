@@ -122,4 +122,10 @@ public class MessageClientV2 {
             }
         }
     }
+
+    public static void main(String[] args) {
+        
+        MessageClientV2 m = new MessageClientV2();
+        m.start();
+    }
 }
