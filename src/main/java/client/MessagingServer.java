@@ -1,8 +1,9 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 import java.net.Socket;
-import java.net.SocketStream;
+import java.net.ServerSocket;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.InputStreamReader;
@@ -10,7 +11,7 @@ import java.io.InputStreamReader;
 
 public class MessagingServer {
 
-    List clientOutputStream;
+    List clientOutputStreams;
 
     public class ClientHandler implements Runnable {
 
@@ -26,6 +27,8 @@ public class MessagingServer {
         }
 
         public void start() {
+
+             System.out.println("Creating connection");   
 
             try {
 
@@ -53,14 +56,64 @@ public class MessagingServer {
                 while((msg = bufReader.readLine()) != null) {
 
                     System.out.println("Reading     " + msg);
-                    shoutMessage(msg);
+                    shoutMessages(msg);
                 
-                } catch (Exception ex) {
+                }
+
+            } catch (Exception ex) {
 
                     ex.printStackTrace();
-                }
             }
         }
 
+    }
+
+
+
+    public void shoutMessages(String message) {
+
+        Iterator it = clientOutputStreams.iterator();
+
+        while(it.hasNext()) {
+
+            try {
+
+                PrintWriter pw = (PrintWriter) it.next();
+                pw.println(message);
+                pw.flush();
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
+        }
+    }
+
+
+
+    public void startMessaging() {
+
+        clientOutputStreams = new ArrayList();
+
+        try {
+
+            ServerSocket serverSocket = new ServerSocket(5880);
+
+            while(true) {
+
+                Socket clientSock = serverSocket.accept();
+                PrintWriter pwrtr = new PrintWriter(clientSock.getOutputStream());
+                clientOutputStreams.add(pwrtr);
+                
+                ClientHandler handler = new ClientHandler("Client", clientSock);
+
+                handler.start();
+                System.out.println("Connection Established");
+            }
+        
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
     }
 }
