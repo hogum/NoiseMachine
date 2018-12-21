@@ -44,5 +44,23 @@ public class MessagingServer {
             thread.start();
         }
 
+        public void run() {
+
+            String msg;
+
+            try {
+
+                while((msg = bufReader.readLine()) != null) {
+
+                    System.out.println("Reading     " + msg);
+                    shoutMessage(msg);
+                
+                } catch (Exception ex) {
+
+                    ex.printStackTrace();
+                }
+            }
+        }
+
     }
 }
