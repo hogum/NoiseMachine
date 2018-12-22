@@ -292,16 +292,15 @@ public class SoundBeatsV2 {
 
     private void buildTracks(int[] trackList) {
 
-        int i = 0;
-
-        for (int key: trackList) {
+        for (int i=0; i<=15; i++) {
+            int key = trackList[i];
 
             if (key != 0) {
                 track.add(createEvent(144, 9, key, 100, i));
-                track.add(createEvent(128, 9, key, 100, ++i));
-            }
+                track.add(createEvent(128, 9, key, 100, i+1));
         }
     }
+}
 
     private MidiEvent createEvent(int command, int channel, int key, int stroke, int time) {
 
@@ -325,11 +324,10 @@ public class SoundBeatsV2 {
 
     private void updateCheckBoxes(boolean[] checkBoxesStatus) {
 
-        int i = 0;
-
-        for(JCheckBox checkB: checkBoxesList) {
-
-            if(checkBoxesStatus[i++]) {
+        for(int i=0; i< 256; i++) {
+            JCheckBox checkB = (JCheckBox) checkBoxesList.get(i);
+            
+            if(checkBoxesStatus[i]) {
                 checkB.setSelected(true);
             
             } else {
@@ -342,13 +340,14 @@ public class SoundBeatsV2 {
         
         public void actionPerformed(ActionEvent ev) {
             boolean [] checkBoxStatus = new boolean[256];
-            int i = 0;
 
-            for(JCheckBox checkB: checkBoxesList) {
-
-                if(checkB.isSelected())
-                    checkBoxStatus[i++] = true;
+             for(int i=0; i< 256; i++) {
+                JCheckBox checkB = (JCheckBox) checkBoxesList.get(i);
+            
+                if(checkBoxStatus[i]) {
+                    checkB.setSelected(true);
             }
+        }
             try {
                 outputStream.writeObject(userName + textCount++ + ":  " + incomingText.getText());
                 incomingText.setText("");
