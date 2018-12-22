@@ -48,7 +48,7 @@ public class SoundBeatsV2 {
     int [] soundNotes = {35, 42, 46, 38, 49, 39,
                        50, 60, 70, 72, 64, 56, 58, 47, 67, 63};
 
-    
+
     public void buildGui() {
         frame = new JFrame("Sound Box");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,3 +119,100 @@ public class SoundBeatsV2 {
 
 }
 
+class StopButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            
+            sequencer.stop();
+        }
+    }
+
+    class StartButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent event) {
+            startTracks();
+        }
+
+    }
+
+     class TempoUpButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            
+            float tempoFactor = sequencer.getTempoFactor();
+            sequencer.setTempoFactor((float) (tempoFactor * 1.03));
+        }
+    }
+
+     class TempoDownButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+           
+            float tempoFactor = sequencer.getTempoFactor();
+            sequencer.setTempoFactor((float) (tempoFactor * .97));
+        }
+    }
+
+    
+    class SerializeButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+        
+            JFileChooser fileSaver = new JFileChooser();
+            fileSaver.showSaveDialog(frame);
+            File fl =  fileSaver.getSelectedFile();
+
+            boolean [] checkBoxStatus = new boolean[256];
+
+            for (int i=0; i < 256; i++) {
+                JCheckBox checkB = (JCheckBox) checkBoxesList.get(i);
+
+                if (checkB.isSelected()) {
+
+                    checkBoxStatus[i] = true;
+                }
+            }
+
+            try {
+
+                FileOutputStream fs = new FileOutputStream(fl);
+                ObjectOutputStream os = new ObjectOutputStream(fs);
+                os.writeObject(checkBoxStatus);
+            
+            } catch (IOException ex) {
+
+                ex.printStackTrace();
+            }
+        }      
+    }
+
+    class RestoreButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+
+            boolean [] checkBoxStatus = null;
+
+            JFileChooser fileLoader = new JFileChooser();
+            fileLoader.showOpenDialog(frame);
+
+            try {
+                    FileInputStream fs = new FileInputStream(fileLoader.getSelectedFile());
+                    ObjectInputStream is = new ObjectInputStream(fs);
+                    checkBoxStatus = (boolean []) is.readObject();
+            
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            for (int i=0; i < 256; i++) {
+
+                JCheckBox checkB = (JCheckBox) checkBoxesList.get(i);
+
+                if (checkBoxStatus[i]) {
+                    checkB.setSelected(true);
+                
+                } else {
+
+                    checkB.setSelected(false);
+                }
+            }
+
+            sequencer.stop();
+            startTracks();
+        }
+    }
