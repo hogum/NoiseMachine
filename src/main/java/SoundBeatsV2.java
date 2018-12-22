@@ -281,8 +281,25 @@ public class SoundBeatsV2 {
 
 
     class SendButtonListener implements ActionListener {
+        
         public void actionPerformed(ActionEvent ev) {
+            boolean [] checkBoxStatus = new boolean[256];
+            String outgoingMessage;
+            int i = 0;
 
+            for(JCheckBox checkB: checkBoxesList) {
+
+                if(checkB.isSelected())
+                    checkBoxStatus[i++] = true;
+            }
+            try {
+                outputStream.writeObject(userName + textCount++ + ":  " + incomingText);
+                incomingText.setText("");
+                outputStream.writeObject(checkBoxStatus);
+            
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
         }
     }
