@@ -11,6 +11,11 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
 
 import javax.sound.midi.*;
 
@@ -143,7 +148,14 @@ public class SoundBeatsV2 {
             beatPanel.add(checkB);
         }
 
-        setUpMidi();
+        incomingText = new JTextField();
+        //buttonBox.add(incomingText);
+        
+        textList = new JList();
+        textList.addListSelectionListener(new TextListSelectionListener());
+        textList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane txtListPane = new JScrollPane();
+        buttonBox.add(txtListPane);
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("Beats File");
@@ -162,6 +174,7 @@ public class SoundBeatsV2 {
         frame.pack();
         frame.setVisible(true);
 
+        setUpMidi();
     }
 
 
@@ -287,5 +300,17 @@ public class SoundBeatsV2 {
             sequencer.stop();
             startTracks();
         }
+    }
+
+    class TextListSelectionListener implements ListSelectionListener {
+        public void valueChanged(ListSelectionEvent le) {
+
+        }
+
+    }
+    public static void main(String[] args) {
+        
+        SoundBeatsV2 sb = new SoundBeatsV2();
+        sb.startPlay("Test", "127.0.0.1", 5080);
     }
 }
