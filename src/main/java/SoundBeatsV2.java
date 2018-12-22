@@ -6,10 +6,15 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
+import javax.swing.JList;
 
 import javax.sound.midi.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+import java.util.HashMap;
 
 import java.awt.BorderLayout;
 import java.awt.Label;
@@ -18,6 +23,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
@@ -32,10 +38,18 @@ public class SoundBeatsV2 {
 
     JFrame frame;
     JPanel beatPanel;
+    JTextField incomingText;
+    JList textList;
     Sequencer sequencer;
     Sequence sequence;
     Track track;
-    ArrayList<JCheckBox> checkBoxesList;
+    List<JCheckBox> checkBoxesList;
+    int textCount;
+    List<String> displayList = new Vector();
+    String userName;
+    ObjectInputStream inputStream;
+    ObjectOutputStream outputStream;
+    HashMap<String, boolean []> map = new HashMap<String, boolean []>();
 
     String [] soundNames = {
         "Bass Drum", "Closed Hi-Hat",
@@ -49,7 +63,28 @@ public class SoundBeatsV2 {
                        50, 60, 70, 72, 64, 56, 58, 47, 67, 63};
 
 
-    public void buildGui() {
+    public void startPlay(String name, String addr, int port) {
+
+        userName = name;
+
+        createConnection(addr, port);
+        buildGui();
+    }
+
+
+    private void createConnection(String address, int port) {
+        try {
+            Socket socket = new Socket(address, port);
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            inputStream = new ObjectInputStream(socket.getInputStream());
+        
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+    }
+
+    private void buildGui() {
         frame = new JFrame("Sound Box");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -117,7 +152,20 @@ public class SoundBeatsV2 {
 
     }
 
-}
+
+    public void setUpMidi() {
+        try {
+            sequencer = MidiSystem.getSequencer();
+            sequencer.open();
+            sequence = new Sequence(Sequence.PPQ, 4);
+            track = sequence.createTrack();
+            sequencer.setTempoInBPM(120);
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 class StopButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
@@ -216,3 +264,4 @@ class StopButtonListener implements ActionListener {
             startTracks();
         }
     }
+}
