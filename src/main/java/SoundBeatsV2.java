@@ -57,7 +57,7 @@ public class SoundBeatsV2 {
     String userName;
     ObjectInputStream inputStream;
     ObjectOutputStream outputStream;
-    HashMap<String, boolean []> map = new HashMap<String, boolean []>();
+    HashMap<String, boolean []> inputMap = new HashMap<String, boolean []>();
 
     String [] soundNames = {
         "Bass Drum", "Closed Hi-Hat",
@@ -279,6 +279,20 @@ public class SoundBeatsV2 {
         return event;
     }
 
+    private void updateCheckBoxes(boolean[] checkBoxesStatus) {
+
+        int i = 0;
+
+        for(JCheckBox checkB: checkBoxesList) {
+
+            if(checkBoxesStatus[i++]) {
+                checkB.setSelected(true);
+            
+            } else {
+                checkB.setSelected(false);
+            }
+        }
+    }
 
     class SendButtonListener implements ActionListener {
         
@@ -405,9 +419,20 @@ public class SoundBeatsV2 {
     class TextListSelectionListener implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent le) {
 
+            if(! le.getValueIsAdjusting()) {
+                String selectedString = (String) textList.getSelectedValue();
+
+                if( selectedString != null) {
+                    boolean [] selectedBoxesStates = (boolean []) inputMap.get(selectedString);
+                    updateCheckBoxes(selectedBoxesStates);
+                    sequencer.stop();
+                    startTracks();
+                }
+            }
         }
 
     }
+
     public static void main(String[] args) {
         
         SoundBeatsV2 sb = new SoundBeatsV2();
