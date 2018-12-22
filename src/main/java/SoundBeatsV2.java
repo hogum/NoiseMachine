@@ -8,6 +8,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JMenuBar;
 
 import javax.sound.midi.*;
 
@@ -112,11 +115,11 @@ public class SoundBeatsV2 {
         tempoDownButton.addActionListener(new TempoDownButtonListener());
         buttonBox.add(tempoDownButton);
 
-        JButton serializeButton = new JButton("Send to File");
+        JButton serializeButton = new JButton("Save to File");
         serializeButton.addActionListener(new SerializeButtonListener());
         buttonBox.add(serializeButton);
 
-        JButton restoreButton = new JButton("Restore");
+        JButton restoreButton = new JButton("Restore from file");
         restoreButton.addActionListener(new RestoreButtonListener());
         buttonBox.add(restoreButton);
 
@@ -146,6 +149,19 @@ public class SoundBeatsV2 {
 
         setUpMidi();
 
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("Beats File");
+        JMenuItem restoreBeatMenuItem = new JMenuItem("Restore Beat");
+        JMenuItem saveBeatMenuItem = new JMenuItem("Save");
+
+        saveBeatMenuItem.addActionListener(new SerializeButtonListener());
+        restoreBeatMenuItem.addActionListener(new RestoreButtonListener());
+
+        fileMenu.add(saveBeatMenuItem);
+        fileMenu.add(restoreBeatMenuItem);
+        menuBar.add(fileMenu);
+
+        frame.setJMenuBar(menuBar);
         frame.setBounds(350, 90, 300, 300);
         frame.pack();
         frame.setVisible(true);
