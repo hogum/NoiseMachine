@@ -115,14 +115,10 @@ public class SoundBeatsV2 {
         tempoDownButton.addActionListener(new TempoDownButtonListener());
         buttonBox.add(tempoDownButton);
 
-        JButton serializeButton = new JButton("Save to File");
-        serializeButton.addActionListener(new SerializeButtonListener());
-        buttonBox.add(serializeButton);
-
-        JButton restoreButton = new JButton("Restore from file");
-        restoreButton.addActionListener(new RestoreButtonListener());
-        buttonBox.add(restoreButton);
-
+        JButton sendButton = new JButton("Send Track");
+        sendButton.addActionListener(new SendButtonListener());
+        buttonBox.add(sendButton);
+        
         Box nameBox = new Box(BoxLayout.Y_AXIS);
 
         for (int i=0; i < 16 ; i++)
