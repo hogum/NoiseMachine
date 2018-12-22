@@ -53,7 +53,7 @@ public class SoundBeatsV2 {
     Track track;
     List<JCheckBox> checkBoxesList;
     int textCount;
-    List<String> displayList = new Vector();
+    Vector<String> displayList = new Vector<String>();
     String userName;
     ObjectInputStream inputStream;
     ObjectOutputStream outputStream;
@@ -124,6 +124,17 @@ public class SoundBeatsV2 {
         sendButton.addActionListener(new SendButtonListener());
         buttonBox.add(sendButton);
         
+        incomingText = new JTextField();
+        buttonBox.add(incomingText);
+        
+        textList = new JList();
+        textList.addListSelectionListener(new TextListSelectionListener());
+        textList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane txtListPane = new JScrollPane(textList);
+        buttonBox.add(txtListPane);
+        textList.setListData(displayList);
+
+
         Box nameBox = new Box(BoxLayout.Y_AXIS);
 
         for (int i=0; i < 16 ; i++)
@@ -147,15 +158,6 @@ public class SoundBeatsV2 {
             checkBoxesList.add(checkB);
             beatPanel.add(checkB);
         }
-
-        incomingText = new JTextField();
-        //buttonBox.add(incomingText);
-        
-        textList = new JList();
-        textList.addListSelectionListener(new TextListSelectionListener());
-        textList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane txtListPane = new JScrollPane();
-        buttonBox.add(txtListPane);
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("Beats File");
