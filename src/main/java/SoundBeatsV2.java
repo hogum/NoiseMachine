@@ -195,7 +195,88 @@ public class SoundBeatsV2 {
 
 
     private void startTracks() {
+    
+    /*
+    Creates a 16-element array to hold values for each track.
+    Value of an intrument that's to play is set as the 'note',
+    if not, the value is zero.
+    */
 
+        int [] trackList = null;
+
+        // Clear old track
+
+        sequence.deleteTrack(track);
+        track = sequence.createTrack();
+
+        for (int i=0; i<=15; i++) {
+            
+            trackList = new int[16];
+
+            int note = soundNotes[i];
+
+            for (int j=0; j<=15; j++) {
+
+                JCheckBox checkB = (JCheckBox) checkBoxesList.get(j + (16*i));
+
+                if (checkB.isSelected()) {
+                    trackList[j] = note;
+                
+                } else {
+
+                    trackList[j] = 0;
+                }
+            }
+
+            buildTracks(trackList);
+        }
+
+        track.add(createEvent(192, 9, 1, 0, 15));
+
+        try {
+
+                sequencer.setSequence(sequence);
+                sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
+                sequencer.start();
+                sequencer.setTempoInBPM(120);
+        
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+    }
+
+    private void buildTracks(int[] trackList) {
+
+        int i = 0;
+
+        for (int key: trackList) {
+
+            if (key != 0) {
+                track.add(createEvent(144, 9, key, 100, i));
+                track.add(createEvent(128, 9, key, 100, ++i));
+            }
+        }
+    }
+
+    private MidiEvent createEvent(int command, int channel, int key, int stroke, int time) {
+
+        MidiEvent event = null;
+
+        try {
+            ShortMessage midiMsg = new ShortMessage();
+            midiMsg.setMessage(
+                command,
+                channel,
+                key,
+                stroke);
+            event = new MidiEvent(midiMsg, time);
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return event;
     }
 
 
