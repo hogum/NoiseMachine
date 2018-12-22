@@ -179,7 +179,19 @@ public class SoundBeatsV2 {
     }
 
 
-class StopButtonListener implements ActionListener {
+    private void startTracks() {
+
+    }
+
+
+    class SendButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent ev) {
+
+
+        }
+    }
+
+    class StopButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             
             sequencer.stop();
