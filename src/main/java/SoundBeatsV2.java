@@ -81,17 +81,25 @@ public class SoundBeatsV2 {
 
     public class ClientReader implements Runnable {
 
+        Thread thread;
         boolean[] checkBoxesStatus;
-        String receivedString;
+        String receivedString, threadName;
         Object incomingData;
 
+        ClientReader(String name) {
+            this.threadName = name;
+        }
+
         public void run() {
+            System.out.print("Fetching messages ");
+
             try {
-                    while(incomingData = inputStream.readObject() != null) {
+                    System.out.println("Done!");
+                    while((incomingData = inputStream.readObject()) != null) {
                         System.out.println("Incoming... That looks like data ");
                         System.out.println("Data class    " + incomingData.getClass());
-                        receivedString = incomingData;
-                        checkBoxesStatus = inputStream.readObject();
+                        receivedString = (String) incomingData;
+                        checkBoxesStatus = (boolean []) inputStream.readObject();
                         inputMap.put(receivedString, checkBoxesStatus);
                         displayList.add(receivedString);
                         textList.setListData(displayList);
@@ -100,6 +108,17 @@ public class SoundBeatsV2 {
                 ex.printStackTrace();
             }
         }
+
+        public void start() {
+
+            if (thread == null) {
+                thread = new Thread(this, threadName);
+                System.out.println("Created thread  " + threadName);
+            }
+
+            System.out.println("Calling " + threadName);
+            thread.start();
+        }
     }
 
     private void createConnection(String address, int port) {
@@ -107,6 +126,9 @@ public class SoundBeatsV2 {
             Socket socket = new Socket(address, port);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
+
+            ClientReader client = new ClientReader("Client Thread");
+            client.start();
         
         } catch (Exception ex) {
 
