@@ -79,6 +79,28 @@ public class SoundBeatsV2 {
         buildGui();
     }
 
+    public class ClientReader implements Runnable {
+
+        boolean[] checkBoxesStatus;
+        String receivedString;
+        Object incomingData;
+
+        public void run() {
+            try {
+                    while(incomingData = inputStream.readObject() != null) {
+                        System.out.println("Incoming... That looks like data ");
+                        System.out.println("Data class    " + incomingData.getClass());
+                        receivedString = incomingData;
+                        checkBoxesStatus = inputStream.readObject();
+                        inputMap.put(receivedString, checkBoxesStatus);
+                        displayList.add(receivedString);
+                        textList.setListData(displayList);
+                    }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     private void createConnection(String address, int port) {
         try {
@@ -298,7 +320,6 @@ public class SoundBeatsV2 {
         
         public void actionPerformed(ActionEvent ev) {
             boolean [] checkBoxStatus = new boolean[256];
-            String outgoingMessage;
             int i = 0;
 
             for(JCheckBox checkB: checkBoxesList) {
@@ -307,14 +328,15 @@ public class SoundBeatsV2 {
                     checkBoxStatus[i++] = true;
             }
             try {
-                outputStream.writeObject(userName + textCount++ + ":  " + incomingText);
+                outputStream.writeObject(userName + textCount++ + ":  " + incomingText.getText());
                 incomingText.setText("");
                 outputStream.writeObject(checkBoxStatus);
             
             } catch (Exception ex) {
+                
+                System.out.println("Oops! Your message just wont go\n");
                 ex.printStackTrace();
             }
-
         }
     }
 
